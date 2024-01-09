@@ -629,7 +629,6 @@ class _ButtonMenu extends ConsumerState<ButtonMenu> {
                                                       size.height * 0.3 -
                                                           30,
                                                       child: GridView.builder(
-                                                          physics: BouncingScrollPhysics(),
                                                           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                                                               crossAxisCount: 3,
                                                               mainAxisExtent:
@@ -3767,6 +3766,7 @@ class _ButtonMenu extends ConsumerState<ButtonMenu> {
                         backgroundColor:
                         const Color(0xff0D1C26),
                         duration: const Duration(seconds: 1),
+                        elevation: 0,
                         behavior: SnackBarBehavior.floating,
                         content: Text(
                           menuController == 0 ? translation(context).activityUpdated : translation(context).activityAdded,

@@ -112,13 +112,13 @@
   "time": "الوقت",
   "monthlyIncome": "الدخل\nالشهري",
   "monthlyExpenses": "المصاريف\nالشهرية",
-  "monthlyExpensesWithoutEnter": "30 / المصاريف الشهرية",
+  "monthlyExpensesWithoutEnter": "المصاريف الشهرية",
 
   "noActivity": "لا يوجد قيد",
 
   "monthlyStatisticsOnlyForTurkish": "",
   "monthlyStatisticsOnlyForEnglishAndArabic": "إحصائيات شهر",
-  "dailyAverageSpending": "متوسط مبلغ المصاريف",
+  "dailyAverageSpending": "متوسط مبلغ المصاريف اليومية",
   "spendingScore": "معدل المصاريف",
   "mostSpendingCategory": "الفئة الأكثر إنفاقًا",
   "changeInNetSpending": "وضع التغير الصافي\nمقارنة بالشهر السابق",
@@ -357,7 +357,6 @@
   "dayMonthYear": "سنة.شهر.يوم",
   "monthDayYear": "سنة.يوم.شهر",
   "yearMonthDay": "يوم.شهر.سنة",
-  "myWeeklyAssistant": "المساعد الأسبوعي",
 
   "helpCenter": "مركز المساعدة",
   "whatsNew": "الجديد",
@@ -439,12 +438,12 @@
   "hopeGood" : "نرجو أن تكون بخير",
 
 
-  "totalAssets": "إجمالي الأصول",
+  "totalAssets": "المجموعا لموجودات",
   "total": "المجموع",
-  "totalSmall": "المجموع",
   "past": "السابق",
   "myPastAssetRecords": "سجلات موجوداتي السابقة",
   "close": "أغلق",
+  "totalSmall": "المجموع",
   "doneBitti": "تم",
   "noAssetFound": "لم يتم العثور على صافي الموجودات!",
   "addRemoveAsset": "أضف / احذف  الموجودات",
@@ -528,7 +527,7 @@
   "assetsPage6": "يمكنك تغيير العملة المعروضة في السجلات من هنا أو من تفاصيل العملية. عند النقر على السجل، سيتم فتح صرف العملات ويمكنك استبدال عملتك بعملات مختلفة بأسعار الصرف الحالي.",
 
   "version2Title": "الإصدار",
-  "version2": "الإصدار V2.0.2",
+  "version2": "الإصدار V2.1.0",
   "budgetUpdate": "تم تحديث متابعة الميزانية!",
   "implementedSuggestions": "لقد قمنا بتنفيذ اقتراحاتكم حتى الآن في تطبيق متابعة الميزانية .",
   "whatsNewVersion": "ما هو الجديد",
@@ -669,8 +668,10 @@
   "update2" : "يرجى تحديث التطبيق من المتجر",
   "update3" : "انقر للتحديث",
 
-  "info": "ملاحظة",
+  "downloadedData" : "Your data downloaded",
+  "backupedData" : "Your data is backed up",
 
+  "close" : "أغلق",
   "assetChart30Days": "تغير الموجودات لمدة 30 يومًا",
   "yourHighestIncome": "أعلى دخل لك",
 

@@ -112,12 +112,12 @@
     "time": "Time",
     "monthlyIncome": "Monthly\nIncome",
     "monthlyExpenses": "Monthly\nExpenses",
-    "monthlyExpensesWithoutEnter": "Monthly Expenses / 30",
+    "monthlyExpensesWithoutEnter": "Monthly Expenses",
 
     "noActivity": "No Activity",
 
     "monthlyStatisticsOnlyForTurkish": "",
-    "monthlyStatisticsOnlyForEnglishAndArabic": "Analytics for",
+    "monthlyStatisticsOnlyForEnglishAndArabic": "Statistics for",
     "dailyAverageSpending": "Daily average spending",
     "spendingScore": "Budget score",
     "mostSpendingCategory": "Category with the\nmost spending",
@@ -357,7 +357,6 @@
     "dayMonthYear": "Day.Month.Year",
     "monthDayYear": "Month.Day.Year",
     "yearMonthDay": "Year.Month.Day",
-    "myWeeklyAssistant": "My Weekly Assistant",
 
     "helpCenter": "Help Center",
     "whatsNew": "What's New",
@@ -439,12 +438,12 @@
     "hopeGood" : "We hope you're doing well",
 
 
-    "totalAssets" : "TOTAL ASSETS",
+    "totalAssets" : "TOTAL ASSET",
     "total": "TOTAL",
-    "totalSmall": "Total",
     "past": "Past",
     "myPastAssetRecords": "MY PAST ASSET RECORDS",
     "close": "Close",
+    "totalSmall": "Total",
     "doneBitti": "Done",
     "noAssetFound": "No Asset Found!",
     "addRemoveAsset": "Add/Remove Asset",
@@ -528,7 +527,7 @@
     "assetsPage6": "You can change the currency of the displayed records either here or from the activity details. When you click on the record, the Currency Exchange will show up and you can exchange or  convert your currency to different currencies with current exchange rates.",
 
     "version2Title": "Version",
-    "version2": "V2.0.2 Version",
+    "version2": "V2.1.0 Version",
     "budgetUpdate": "Budget Wise Updated!",
     "implementedSuggestions": "We have implemented your suggestions so far in the Budget Wise application.",
     "whatsNewVersion": "What's New",
@@ -669,8 +668,10 @@
     "update2" : "Please update the application from the store",
     "update3" : "Tap to update",
 
-    "info": "Info",
+    "downloadedData" : "Your data downloaded",
+    "backupedData" : "Your data is backed up",
 
+    "close" : "Close",
     "assetChart30Days": "30 Day Asset Chart",
     "yourHighestIncome": "Your Highest Income",
 

@@ -31,6 +31,7 @@ class _MonthlyStatusInfoState extends ConsumerState<MonthlyStatusInfo> {
     var size = MediaQuery.of(context).size;
     var readHome = ref.read(homeRiverpod);
     var readDailyInfo = ref.read(dailyInfoRiverpod);
+    var readSetting = ref.read(settingsRiverpod);
     CustomColors renkler = CustomColors();
     return FutureBuilder <Map<String, Map<String, double>>>(
       future: readDB.monthlyStatusInfo(ref),
@@ -89,13 +90,14 @@ class _MonthlyStatusInfoState extends ConsumerState<MonthlyStatusInfo> {
           }
         }
         String maxTotalAmount2Date = maxTotalAmount2Day != "" ? "$maxTotalAmount2Day.$maxTotalAmount2Month.$maxTotalAmount2Year" : translation(context).noSpending;
-
+        // ${readSettings.getMonthInList(context)} ${readSettings.yearIndex.toString()}
+        DateTime date = DateTime(readSetting.yearIndex,readSetting.monthIndex+1,0);
         return SizedBox(
           height: 184,
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 12),
             child: SingleChildScrollView(
-              physics: BouncingScrollPhysics(),
+              physics: const BouncingScrollPhysics(),
               child: Column(
                 children: [
                   Padding(
@@ -106,7 +108,7 @@ class _MonthlyStatusInfoState extends ConsumerState<MonthlyStatusInfo> {
                       width: size.width,
                       decoration: BoxDecoration(
                           color: Theme.of(context).indicatorColor,
-                          borderRadius: BorderRadius.all(Radius.circular(15))
+                          borderRadius: const BorderRadius.all(Radius.circular(15))
                       ),
                       child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -144,12 +146,12 @@ class _MonthlyStatusInfoState extends ConsumerState<MonthlyStatusInfo> {
                                       ),
                                     ),
                                   ),
-                                  Expanded(child: Text(translation(context).dailyAverageSpending,style: TextStyle(height: 1,fontSize: 15),textAlign: TextAlign.center,)),
+                                  Expanded(child: Text(translation(context).dailyAverageSpending,style: const TextStyle(height: 1,fontSize: 15),textAlign: TextAlign.center,)),
                                   Container(
                                     height: 36,
                                     decoration: BoxDecoration(
                                         color: Theme.of(context).secondaryHeaderColor,
-                                        borderRadius: BorderRadius.all(Radius.circular(10))
+                                        borderRadius: const BorderRadius.all(Radius.circular(10))
                                     ),
                                     child: Center(
                                       child: Padding(
@@ -189,7 +191,7 @@ class _MonthlyStatusInfoState extends ConsumerState<MonthlyStatusInfo> {
                                   height: avarageSizeController == false ? 0 :36,
                                   decoration: BoxDecoration(
                                       color: Theme.of(context).scaffoldBackgroundColor,
-                                      borderRadius: BorderRadius.all(Radius.circular(10))
+                                      borderRadius: const BorderRadius.all(Radius.circular(10))
                                   ),
                                   child: Center(
                                     child: Padding(
@@ -197,11 +199,19 @@ class _MonthlyStatusInfoState extends ConsumerState<MonthlyStatusInfo> {
                                       child: Row(
                                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                         children: [
-                                          Text(translation(context).monthlyExpensesWithoutEnter),/// aylik gider / 30
+                                          Directionality(
+                                              textDirection: TextDirection.ltr,
+                                              child: Row(
+                                                children: [
+                                                  Text(translation(context).monthlyExpensesWithoutEnter),
+                                                  const Text(" / "),
+                                                  Text("${date.day}"),
+                                                ],
+                                              )),/// aylik gider / ay  kaç gün ise
                                           RichText(
                                               text: TextSpan(children: [
                                                 TextSpan(
-                                                  text: (totalExpenses/30).toStringAsFixed(2),
+                                                  text: (totalExpenses/date.day).toStringAsFixed(2),
                                                   style: TextStyle(
                                                     height: 1,
                                                     color: Theme.of(context).canvasColor,
@@ -243,7 +253,7 @@ class _MonthlyStatusInfoState extends ConsumerState<MonthlyStatusInfo> {
                             height: 72,
                             decoration: BoxDecoration(
                                 color: Theme.of(context).secondaryHeaderColor,
-                                borderRadius: BorderRadius.all(Radius.circular(15))
+                                borderRadius: const BorderRadius.all(Radius.circular(15))
                             ),
                             child: Padding(
                               padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -262,7 +272,7 @@ class _MonthlyStatusInfoState extends ConsumerState<MonthlyStatusInfo> {
                                     children: [
                                       Visibility(
                                         visible: size.width > 324,
-                                        child: SizedBox(height: 16,
+                                        child: const SizedBox(height: 16,
                                           width: 16,),
                                       ),
                                       Directionality(
@@ -381,6 +391,7 @@ class _MonthlyStatusInfoState extends ConsumerState<MonthlyStatusInfo> {
                             SnackBar(
                                 backgroundColor: Theme.of(context).highlightColor,
                                 duration: const Duration(seconds: 1),
+                                elevation: 0,
                                 behavior: SnackBarBehavior.floating,
                                 content: Center(
                                   child: Text(
@@ -404,7 +415,7 @@ class _MonthlyStatusInfoState extends ConsumerState<MonthlyStatusInfo> {
                         width: size.width,
                         decoration: BoxDecoration(
                             color: Theme.of(context).indicatorColor,
-                            borderRadius: BorderRadius.all(Radius.circular(15))
+                            borderRadius: const BorderRadius.all(Radius.circular(15))
                         ),
                         child: Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -413,12 +424,12 @@ class _MonthlyStatusInfoState extends ConsumerState<MonthlyStatusInfo> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Expanded(child: Center(child: Text(translation(context).mostSpendingDay,style: TextStyle(height: 1,fontSize: 15,overflow: TextOverflow.ellipsis),textAlign: TextAlign.center,maxLines: 3,))),
+                                Expanded(child: Center(child: Text(translation(context).mostSpendingDay,style: const TextStyle(height: 1,fontSize: 15,overflow: TextOverflow.ellipsis),textAlign: TextAlign.center,maxLines: 3,))),
                                 Container(
                                   height: 36,
                                   decoration: BoxDecoration(
                                       color: Theme.of(context).scaffoldBackgroundColor,
-                                      borderRadius: BorderRadius.all(Radius.circular(10))
+                                      borderRadius: const BorderRadius.all(Radius.circular(10))
                                   ),
                                   child: Center(
                                     child: Padding(
@@ -481,7 +492,7 @@ class _MonthlyStatusInfoState extends ConsumerState<MonthlyStatusInfo> {
               height: 72,
               decoration: BoxDecoration(
                   color: Theme.of(context).indicatorColor,
-                  borderRadius: BorderRadius.all(Radius.circular(15))
+                  borderRadius: const BorderRadius.all(Radius.circular(15))
               ),
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -490,7 +501,7 @@ class _MonthlyStatusInfoState extends ConsumerState<MonthlyStatusInfo> {
                     Expanded(
                       child: PageView(
                         scrollDirection: Axis.vertical,
-                        physics: listItem!.isNotEmpty ? BouncingScrollPhysics() : NeverScrollableScrollPhysics(),
+                        physics: listItem!.isNotEmpty ? const BouncingScrollPhysics() : const NeverScrollableScrollPhysics(),
                         onPageChanged: (value) {
                           setState(() {
                             pageControllerCategory = value;
@@ -565,7 +576,7 @@ class _MonthlyStatusInfoState extends ConsumerState<MonthlyStatusInfo> {
                         ],
                       ),
                     ),
-                    listItem!.isNotEmpty ? counterContainer(context,pageControllerCategory) : SizedBox()
+                    listItem!.isNotEmpty ? counterContainer(context,pageControllerCategory) : const SizedBox()
                   ],
                 ),
               ),
@@ -604,7 +615,7 @@ class _MonthlyStatusInfoState extends ConsumerState<MonthlyStatusInfo> {
             width: size.width,
             decoration: BoxDecoration(
                 color: Theme.of(context).indicatorColor,
-                borderRadius: BorderRadius.all(Radius.circular(15))
+                borderRadius: const BorderRadius.all(Radius.circular(15))
             ),
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -616,7 +627,7 @@ class _MonthlyStatusInfoState extends ConsumerState<MonthlyStatusInfo> {
                     Expanded(
                       child: PageView(
                         scrollDirection: Axis.vertical,
-                        physics: BouncingScrollPhysics(),
+                        physics: const BouncingScrollPhysics(),
                         onPageChanged: (value) {
                           setState(() {
                             pageController = value;
@@ -627,12 +638,12 @@ class _MonthlyStatusInfoState extends ConsumerState<MonthlyStatusInfo> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Expanded(child: Center(child: Text(translation(context).changeInNetSpending,style: TextStyle(height: 1,fontSize: 15),textAlign: TextAlign.center,))),
+                              Expanded(child: Center(child: Text(translation(context).changeInNetSpending,style: const TextStyle(height: 1,fontSize: 15),textAlign: TextAlign.center,))),
                               Container(
                                 height: 36,
                                 decoration: BoxDecoration(
                                     color: compare >= 0 ? renkler.yesilRenk : renkler.kirmiziRenk,
-                                    borderRadius: BorderRadius.all(Radius.circular(10))
+                                    borderRadius: const BorderRadius.all(Radius.circular(10))
                                 ),
                                 child: Center(
                                   child: Padding(
@@ -673,12 +684,12 @@ class _MonthlyStatusInfoState extends ConsumerState<MonthlyStatusInfo> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Expanded(child: Center(child: Text(readSettings.getMonthInListWithIndex(context,readSettings.monthIndex-1),style: TextStyle(height: 1,fontSize: 14),textAlign: TextAlign.center,))),
+                              Expanded(child: Center(child: Text(readSettings.getMonthInListWithIndex(context,readSettings.monthIndex-1),style: const TextStyle(height: 1,fontSize: 14),textAlign: TextAlign.center,))),
                               Container(
                                 height: 28,
                                 decoration: BoxDecoration(
                                     color: total >= 0 ? renkler.yesilRenk : renkler.kirmiziRenk,
-                                    borderRadius: BorderRadius.all(Radius.circular(10))
+                                    borderRadius: const BorderRadius.all(Radius.circular(10))
                                 ),
                                 child: Center(
                                   child: Padding(
@@ -711,12 +722,12 @@ class _MonthlyStatusInfoState extends ConsumerState<MonthlyStatusInfo> {
                                   ),
                                 ),
                               ),
-                              Expanded(child: Center(child: Text(readSettings.getMonthInList(context),style: TextStyle(height: 1,fontSize: 14),textAlign: TextAlign.center,))),
+                              Expanded(child: Center(child: Text(readSettings.getMonthInList(context),style: const TextStyle(height: 1,fontSize: 14),textAlign: TextAlign.center,))),
                               Container(
                                 height: 28,
                                 decoration: BoxDecoration(
                                     color: formattedTotal >= 0 ? renkler.yesilRenk : renkler.kirmiziRenk,
-                                    borderRadius: BorderRadius.all(Radius.circular(10))
+                                    borderRadius: const BorderRadius.all(Radius.circular(10))
                                 ),
                                 child: Center(
                                   child: Padding(
@@ -806,6 +817,7 @@ class _MonthlyStatusInfoState extends ConsumerState<MonthlyStatusInfo> {
                   SnackBar(
                       backgroundColor: Theme.of(context).highlightColor,
                       duration: const Duration(seconds: 1),
+                      elevation: 0,
                       behavior: SnackBarBehavior.floating,
                       content: Center(
                         child: Text(
@@ -833,7 +845,7 @@ class _MonthlyStatusInfoState extends ConsumerState<MonthlyStatusInfo> {
                     //width: size.width-54,
                     decoration: BoxDecoration(
                         color: Theme.of(context).indicatorColor,
-                        borderRadius: BorderRadius.all(Radius.circular(15))
+                        borderRadius: const BorderRadius.all(Radius.circular(15))
                     ),
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -842,12 +854,12 @@ class _MonthlyStatusInfoState extends ConsumerState<MonthlyStatusInfo> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Expanded(child: Center(child: Text(translation(context).mostExpensiveSpending,style: TextStyle(height: 1,fontSize: 15,overflow: TextOverflow.ellipsis),textAlign: TextAlign.center,maxLines: 2,))),
+                            Expanded(child: Center(child: Text(translation(context).mostExpensiveSpending,style: const TextStyle(height: 1,fontSize: 15,overflow: TextOverflow.ellipsis),textAlign: TextAlign.center,maxLines: 2,))),
                             Container(
                               height: 36,
                               decoration: BoxDecoration(
                                   color: Theme.of(context).scaffoldBackgroundColor,
-                                  borderRadius: BorderRadius.all(Radius.circular(10))
+                                  borderRadius: const BorderRadius.all(Radius.circular(10))
                               ),
                               child: Center(
                                 child: Padding(
@@ -887,7 +899,7 @@ class _MonthlyStatusInfoState extends ConsumerState<MonthlyStatusInfo> {
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.only(left: 8),
+                  padding: const EdgeInsets.only(left: 8),
                   child: Container(
                     height: 36,
                     width: 36,

@@ -5,7 +5,9 @@ import 'package:butcekontrol/classes/language.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:googleapis/translate/v3.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
+import '../classes/language.dart';
 import '../constans/material_color.dart';
 import '../models/Data.dart';
 import '../models/spend_info.dart';
@@ -31,10 +33,9 @@ class _myAssistant extends ConsumerState<myAssistant> {
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
-    var readCategoryInfo = ref.read(categoryInfoRiverpod);
     var readDb = ref.read(databaseRiverpod);
+    readDb.setMonthandYear(DateTime.now().month.toString(), DateTime.now().year.toString()); //assistan mevcut tarihe ayarlıyor.
     var readSettings = ref.read(settingsRiverpod);
-    Future<List<SpendInfo>> myList = readCategoryInfo.myMethod2(key: "a");
     return WillPopScope(
       onWillPop: () async {
         ref.read(settingsRiverpod).setAssistantLastShowDate();
@@ -69,11 +70,17 @@ class _myAssistant extends ConsumerState<myAssistant> {
                       ),
                       child: Stack(
                         children: [
-                          FutureBuilder(
-                            future: myList,
+                          FutureBuilder<Map<String, double>>(
+                            future: readDb.myMethodForAssistantChart(ref),
                             builder: (context, snapshot) {
                               if (snapshot.hasData) {
-                                List<SpendInfo> item = snapshot.data!; // !
+                                List<Data> chartData = snapshot.data!.entries.map((entry) {
+                                  return Data(entry.key, entry.value);
+                                }).toList();
+                                /*
+                                for (var data in chartData) {
+                                  print('Gün: ${data.x}, Tutar: ${data.y}');
+                                }*/
                                 return SfCartesianChart(
                                   borderColor: Colors.transparent,
                                   borderWidth: 0,
@@ -93,16 +100,16 @@ class _myAssistant extends ConsumerState<myAssistant> {
                                   ),
                                   series: <ChartSeries>[
                                     SplineAreaSeries<Data, String>(
-                                      dataSource:  getDataSet(readCategoryInfo.getDataType(), item),
+                                      dataSource:  chartData,
                                       xValueMapper:(Data data, _) => data.x,
                                       yValueMapper: (Data data, _) => data.y,
+                                      color: Theme.of(context).dialogBackgroundColor.withOpacity(0.1),
                                       /*
                                       gradient: LinearGradient(
                                         begin: Alignment.topCenter,
                                         end: Alignment.bottomCenter,
                                         colors: [Theme.of(context).disabledColor.withOpacity(0.5) , Theme.of(context).primaryColor.withOpacity(0.2) ],
                                       ),
-
                                        */
                                       dataLabelSettings: const DataLabelSettings(
                                           isVisible: false,
@@ -190,8 +197,9 @@ class _myAssistant extends ConsumerState<myAssistant> {
                               ),
                               const SizedBox(height: 10,),
                               const Generalinfo(isAssistantMode: true),
-                              FutureBuilder(
-                                future: readDb.yourMethod(ref, DateTime.now().month, DateTime.now().year),
+                              ///ay başlangıç tarihi olarak değişecek.
+                              FutureBuilder( // asset page olarak değiştirilecek
+                                future: readDb.myAssistantMethod(ref, DateTime.now().month, DateTime.now().year),
                                 builder: (context, snapshot) {
                                   if(snapshot.hasData){
                                     var data = snapshot.data as Map<String, List<SpendInfo>>;
@@ -225,27 +233,6 @@ class _myAssistant extends ConsumerState<myAssistant> {
     return lastDayOfMonth.day;
   }
 
-  List<Data> getDataSet(String mod, List<SpendInfo> items){
-    List<Data> dataSetList = [];
-    Map<String, double> takvim  = {};
-    items.forEach((item) {
-      if(item.operationDay != null){
-        if(takvim.containsKey(item.operationDay)){
-          takvim[item.operationDay!] = takvim[item.operationDay!]! + item.realAmount! ;
-        }else{
-          takvim[item.operationDay!] = item.realAmount!;
-        }
-      }
-    });
-    for(int i = 0 ; i < foundMaxdayinMoth() ; i++){
-      if(takvim[(i + 1).toString()] != null){
-        dataSetList.add(Data((i + 1).toString(), takvim[(i+1).toString()]));
-      }else{
-        dataSetList.add(Data((i + 1).toString(), 0));
-      }
-    }
-    return dataSetList;
-  }
 
   double getAssetsApi(WidgetRef ref, List<SpendInfo> ?data)  { //Varlıklarım sayfasından Toplam verisini çekiyor.
     return (double.parse(ref.read(databaseRiverpod).getTotalAmountByDiger(data!)) +
@@ -325,8 +312,8 @@ class _myAssistant extends ConsumerState<myAssistant> {
           ),
         ),
         income == 0
-            ?const SizedBox(width: 1)
-            :Column(
+        ?SizedBox(width: 1)
+        :Column(
           children: [
             SizedBox(
               height: 70,

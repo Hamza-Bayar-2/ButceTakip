@@ -127,7 +127,7 @@ class _SettingsState extends ConsumerState<Settings> {
             padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 0),
             child:
             CustomScrollView(
-              physics: const BouncingScrollPhysics(),
+              physics: BouncingScrollPhysics(),
               slivers: [
               SliverFillRemaining(
               hasScrollBody: false,
@@ -441,9 +441,12 @@ class _SettingsState extends ConsumerState<Settings> {
 
                     GestureDetector(
                         onTap: () {
-                          lampCounter < 9 ? readSetting.setDarkModeNotBool() : null;
-                          lampCounter += 1;
-                          lampCounter == 12 ? lampCounter = 0 : null;
+                          setState(() {
+                            lampCounter < 9 ? readSetting.setDarkModeNotBool() : null;
+                            lampCounter += 1;
+                            lampCounter == 12 ? lampCounter = 0 : null;
+                            readSetting.setisuseinsert();
+                          });
                         },
                         child: AnimatedContainer(
                           duration: const Duration(milliseconds: 500),
@@ -1486,11 +1489,11 @@ class _SettingsState extends ConsumerState<Settings> {
                               size: 18,
                             ),
                           ),
-                          Padding(
-                            padding: const EdgeInsets.only(top: 4, left: 8, right: 8),
+                          const Padding(
+                            padding: EdgeInsets.only(top: 4, left: 8, right: 8),
                             child: Text(
-                              translation(context).myWeeklyAssistant,
-                              style: const TextStyle(fontFamily: "Nexa3", fontSize: 14, height: 1),
+                              "Haftalık Asistanım",
+                              style: TextStyle(fontFamily: "Nexa3", fontSize: 14, height: 1),
                             ),
                           ),
                           const Spacer(),
@@ -1512,11 +1515,14 @@ class _SettingsState extends ConsumerState<Settings> {
                                 ),
                               );
                             },
-                            child: const Icon(Icons.open_in_browser)
+                            child: Icon(Icons.open_in_browser)
                           ),
-                          const SizedBox(width: 10,),
-                          Text(switch1! ? translation(context).on : translation(context).off),
-                          const SizedBox(width: 10,),
+                          SizedBox(width: 10,),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 2),
+                            child: Text(switch1! ? translation(context).on : translation(context).off),
+                          ),
+                          SizedBox(width: 10,),
                           Container(
                             height: 26,
                             decoration: BoxDecoration(
